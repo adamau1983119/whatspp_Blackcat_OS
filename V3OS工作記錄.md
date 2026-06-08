@@ -424,6 +424,7 @@ npm start
 | 分支 | `main`（相對 `origin/main` 有大量未提交變更） |
 | 最後 commit | `2d83106` — Phase 0 英文契約（**尚未**含 Phase 1～9 程式） |
 | 建議 | 驗收通過後由負責人決定是否 `git add`／commit／push 或打 tag `v3.0.0-phase9` |
+| **已推送** | `9aada9a` — `feat: complete V3 Phases 1-9…` → `origin/main`（2026-06-08） |
 
 ### 四、文件同步
 
