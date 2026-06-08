@@ -1,0 +1,37 @@
+---
+description: V3 與 v1/v2 版本隔離；禁止回寫 whatsapp_calculator
+globs:
+  - "**/*"
+alwaysApply: true
+---
+
+# Version 3 隔離規則
+
+## 工作目錄
+
+- **僅在** `whatspp_Blackcat_OS/` 內建立或修改程式與 v3 測試。
+- **禁止**修改 `../whatsapp_calculator/` 內任何檔案（含 `lib/`、`index.js`、`test/verify.py`）。
+
+## 與 v1 / v2 的關係
+
+| 版本 | 路徑 | 允許操作 |
+|------|------|----------|
+| v1 凍結 | `whatsapp_calculator` @ `v1.0.0` | **只讀**；Phase 0 可 **複製** 檔案到 v3 |
+| v2 分享 | 同上 @ `v2.0.0` / `main` | **只讀引用** 文件（`SHARING.md` 等） |
+| v3 OS | `whatspp_Blackcat_OS` | **唯一**可寫程式目錄 |
+
+## 禁止
+
+- `npm link`、`file:../whatsapp_calculator`、symlink 指向 v1 原始碼
+- 在 v3 任務中順手「修」v1 bug 或改 v1 行為
+- 覆寫或移動 `v1.0.0`、`v2.0.0` Git tag
+
+## Phase 0 複製清單（自 v1 複製到 v3，非連結）
+
+`package.json`、`lib/calc.js`、`lib/format.js`、`lib/messages.js`、`lib/parse.js`、`lib/session.js`、`lib/handler.js`、`config/commands.json`、`config/messages.json`、`test/verify.py`、`test/audit_hardcode.py`（可再加強）
+
+複製後 v3 內檔案與 v1 **脫鉤**；v3 改 `handler.js` 不影響 v1。
+
+## 可選雙向驗證
+
+完成 v3 Phase N 後，可於 v1 目錄執行 `python test/verify.py` 確認 v1 工作樹未被意外修改。

@@ -1,0 +1,29 @@
+{
+  "version": "3.0.0-phase0",
+  "plugins": {
+    "SYS_CALC": {
+      "tier": "core",
+      "enabled": true,
+      "file": null,
+      "supported_sources": ["WHATSAPP"]
+    },
+    "SYS_MAPS": {
+      "tier": "core",
+      "enabled": true,
+      "file": "maps.js",
+      "supported_sources": ["WHATSAPP"]
+    },
+    "SYS_TRANSLATE": {
+      "tier": "core",
+      "enabled": true,
+      "file": "translate.js",
+      "supported_sources": ["WHATSAPP"]
+    },
+    "GAME_HUB": {
+      "tier": "game",
+      "enabled": true,
+      "file": "game_hub.js",
+      "supported_sources": ["WHATSAPP"]
+    }
+  }
+}

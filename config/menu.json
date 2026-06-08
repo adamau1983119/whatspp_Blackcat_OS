@@ -1,0 +1,10 @@
+{
+  "version": "3.0.0-phase0",
+  "items": [
+    { "index": "1", "type": "SYS_CALC", "name": "Ledger Calculator", "emoji": "🧮" },
+    { "index": "2", "type": "SYS_MAPS", "name": "Quick Navigation", "emoji": "🗺️" },
+    { "index": "3", "type": "SYS_TRANSLATE", "name": "Instant Translator", "emoji": "🌐" },
+    { "index": "4", "type": "GAME_HUB", "name": "Arcade Game Hub", "emoji": "🎮" }
+  ]
+}
+

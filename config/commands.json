@@ -1,0 +1,44 @@
+{
+  "defaultLocale": "zh-TW",
+  "exact": [
+    { "type": "START", "locale": "zh-TW", "aliases": ["=開始"] },
+    { "type": "START", "locale": "en", "aliases": ["=start"] },
+    { "type": "START", "locale": "ko", "aliases": ["=시작"] },
+    { "type": "START", "locale": "fr", "aliases": ["=demarrer", "=démarrer"] },
+    { "type": "START", "locale": "it", "aliases": ["=inizia"] },
+    { "type": "START", "locale": "de", "aliases": ["=starten"] },
+    { "type": "START", "locale": "pt", "aliases": ["=iniciar"] },
+    { "type": "START", "locale": "ja", "aliases": ["=始める"] },
+
+    { "type": "END", "locale": "zh-TW", "aliases": ["=結束"] },
+    { "type": "END", "locale": "en", "aliases": ["=end"] },
+    { "type": "END", "locale": "ko", "aliases": ["=끝"] },
+    { "type": "END", "locale": "fr", "aliases": ["=fin"] },
+    { "type": "END", "locale": "it", "aliases": ["=fine"] },
+    { "type": "END", "locale": "de", "aliases": ["=ende"] },
+    { "type": "END", "locale": "pt", "aliases": ["=fim"] },
+    { "type": "END", "locale": "ja", "aliases": ["=終了"] },
+
+    { "type": "SETTLE", "locale": "zh-TW", "aliases": ["=結算"] },
+    { "type": "SETTLE", "locale": "en", "aliases": ["=settle"] },
+
+    { "type": "UNDO", "locale": "zh-TW", "aliases": ["退回"] },
+    { "type": "UNDO", "locale": "en", "aliases": ["undo"] },
+    { "type": "UNDO", "locale": "ko", "aliases": ["되돌리기"] },
+    { "type": "UNDO", "locale": "fr", "aliases": ["annuler"] },
+    { "type": "UNDO", "locale": "it", "aliases": ["annulla"] },
+    { "type": "UNDO", "locale": "de", "aliases": ["rueckgaengig", "rückgängig"] },
+    { "type": "UNDO", "locale": "pt", "aliases": ["desfazer"] },
+    { "type": "UNDO", "locale": "ja", "aliases": ["戻る"] }
+  ],
+  "prefix": [
+    { "type": "MODIFY", "locale": "zh-TW", "aliases": ["修改"] },
+    { "type": "MODIFY", "locale": "en", "aliases": ["modify"] },
+    { "type": "MODIFY", "locale": "ko", "aliases": ["수정"] },
+    { "type": "MODIFY", "locale": "fr", "aliases": ["modifier"] },
+    { "type": "MODIFY", "locale": "it", "aliases": ["modifica"] },
+    { "type": "MODIFY", "locale": "de", "aliases": ["aendern", "ändern"] },
+    { "type": "MODIFY", "locale": "pt", "aliases": ["alterar"] },
+    { "type": "MODIFY", "locale": "ja", "aliases": ["修正"] }
+  ]
+}

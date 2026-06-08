@@ -1,0 +1,21 @@
+{
+  "name": "whatspp-blackcat-os",
+  "version": "3.0.0-phase0",
+  "description": "WhatsApp 黑貓輕量 OS（微核心 + 可插拔插件）",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "whatsapp",
+    "blackcat",
+    "chatops",
+    "os"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "qrcode": "^1.5.4",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "github:pedroslopez/whatsapp-web.js#pull/5775/head"
+  }
+}

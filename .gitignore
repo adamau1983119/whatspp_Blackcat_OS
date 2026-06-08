@@ -1,0 +1,9 @@
+node_modules/
+.wwebjs_auth/
+.wwebjs_cache/
+.env
+session.json
+verification_status.json
+.DS_Store
+Thumbs.db
+test/__pycache__/
