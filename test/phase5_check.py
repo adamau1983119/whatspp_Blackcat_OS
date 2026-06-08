@@ -63,50 +63,51 @@ def main():
             "const {handleMessage}=require('./lib/handler');"
             "const {getSession,clearAllSessions}=require('./lib/session');"
             "clearAllSessions();"
-            "const r=handleMessage('=開始','h1');"
+            "handleMessage('=開始','h1').then(r=>{"
             "if(!r||!r.reply||!r.reply.includes('主選單'))process.exit(1);"
-            "if(getSession('h1').osState!=='MENU')process.exit(1);",
+            "if(getSession('h1').osState!=='MENU')process.exit(1);});",
         ),
         (
             "operation => total + trajectory",
             "const {handleMessage}=require('./lib/handler');"
             "const {clearAllSessions}=require('./lib/session');"
             "clearAllSessions();"
-            "handleMessage('=開始','h2');handleMessage('1','h2');"
-            "const r=handleMessage('+500','h2');"
-            "if(!r.reply.includes('目前總計')||!r.reply.includes('計算軌跡'))process.exit(1);",
+            "handleMessage('=開始','h2').then(()=>handleMessage('1','h2'))"
+            ".then(()=>handleMessage('+500','h2')).then(r=>{"
+            "if(!r.reply.includes('目前總計')||!r.reply.includes('計算軌跡'))process.exit(1);});",
         ),
         (
             "=結算 => final result",
             "const {handleMessage}=require('./lib/handler');"
             "const {clearAllSessions}=require('./lib/session');"
             "clearAllSessions();"
-            "handleMessage('=開始','h3');handleMessage('1','h3');handleMessage('+500','h3');"
-            "const r=handleMessage('=結算','h3');"
-            "if(!r.reply.includes('最終結果')||!r.reply.includes('500'))process.exit(1);",
+            "handleMessage('=開始','h3').then(()=>handleMessage('1','h3'))"
+            ".then(()=>handleMessage('+500','h3'))"
+            ".then(()=>handleMessage('=結算','h3')).then(r=>{"
+            "if(!r.reply.includes('最終結果')||!r.reply.includes('500'))process.exit(1);});",
         ),
         (
             "needStart when not active",
             "const {handleMessage}=require('./lib/handler');"
             "const {clearAllSessions}=require('./lib/session');"
             "clearAllSessions();"
-            "const r=handleMessage('+500','h4');"
-            "if(!r.reply.includes('請先輸入'))process.exit(1);",
+            "handleMessage('+500','h4').then(r=>{"
+            "if(!r.reply.includes('請先輸入'))process.exit(1);});",
         ),
         (
             "unknown => null reply",
             "const {handleMessage}=require('./lib/handler');"
             "const {clearAllSessions}=require('./lib/session');"
             "clearAllSessions();"
-            "if(handleMessage('你好','h5').reply!==null)process.exit(1);",
+            "handleMessage('你好','h5').then(r=>{if(r.reply!==null)process.exit(1);});",
         ),
         (
             "=start => en menu",
             "const {handleMessage}=require('./lib/handler');"
             "const {clearAllSessions}=require('./lib/session');"
             "clearAllSessions();"
-            "const r=handleMessage('=start','h6');"
-            "if(!r.reply.includes('Menu'))process.exit(1);",
+            "handleMessage('=start','h6').then(r=>{"
+            "if(!r.reply.includes('Menu'))process.exit(1);});",
         ),
     ]
     for name, code in cases:

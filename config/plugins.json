@@ -24,6 +24,60 @@
       "enabled": true,
       "file": "game_hub.js",
       "supported_sources": ["WHATSAPP"]
+    },
+    "SAVE_NOTE": {
+      "tier": "core",
+      "enabled": true,
+      "file": "notes.js",
+      "supported_sources": ["WHATSAPP"]
+    },
+    "SYS_SEARCH": {
+      "tier": "core",
+      "enabled": true,
+      "file": "search.js",
+      "supported_sources": ["WHATSAPP"]
+    },
+    "SYS_SEARCH_ASK": {
+      "tier": "core",
+      "enabled": true,
+      "file": "search.js",
+      "supported_sources": ["WHATSAPP"]
+    },
+    "SYS_MAIL": {
+      "tier": "core",
+      "enabled": true,
+      "file": "mail.js",
+      "supported_sources": ["WHATSAPP"]
+    },
+    "SYS_TODO": {
+      "tier": "core",
+      "enabled": true,
+      "file": "todo.js",
+      "supported_sources": ["WHATSAPP"]
+    },
+    "SYS_TODO_LIST": {
+      "tier": "core",
+      "enabled": true,
+      "file": "todo.js",
+      "supported_sources": ["WHATSAPP"]
+    },
+    "SYS_CLOCK": {
+      "tier": "core",
+      "enabled": true,
+      "file": "clock.js",
+      "supported_sources": ["WHATSAPP"]
+    },
+    "SYS_CALENDAR": {
+      "tier": "core",
+      "enabled": true,
+      "file": "calendar.js",
+      "supported_sources": ["WHATSAPP"]
+    },
+    "SYS_PHOTOS": {
+      "tier": "core",
+      "enabled": true,
+      "file": "photos.js",
+      "supported_sources": ["WHATSAPP"]
     }
   }
 }

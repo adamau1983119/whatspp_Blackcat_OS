@@ -14,8 +14,11 @@
   ],
   "license": "ISC",
   "dependencies": {
+    "@vitalets/google-translate-api": "^9.2.1",
+    "nodemailer": "^8.0.10",
     "qrcode": "^1.5.4",
     "qrcode-terminal": "^0.12.0",
+    "tesseract.js": "^7.0.0",
     "whatsapp-web.js": "github:pedroslopez/whatsapp-web.js#pull/5775/head"
   }
 }

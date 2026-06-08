@@ -1,0 +1,12 @@
+{
+  "defaultLocale": "zh-TW",
+  "exact": [
+    { "type": "GAME_START", "locale": "zh-TW", "aliases": ["=貓貓泡泡龍", "=泡泡龍"] },
+    { "type": "GAME_START", "locale": "en", "aliases": ["=bubblecat"] },
+    { "type": "GAME_END", "locale": "zh-TW", "aliases": ["=結束", "=結束遊戲"] },
+    { "type": "GAME_END", "locale": "en", "aliases": ["=end"] },
+    { "type": "GAME_AIM_LEFT", "locale": "zh-TW", "aliases": ["L", "左"] },
+    { "type": "GAME_AIM_RIGHT", "locale": "zh-TW", "aliases": ["R", "右"] },
+    { "type": "GAME_FIRE", "locale": "zh-TW", "aliases": ["F", "射"] }
+  ]
+}

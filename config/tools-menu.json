@@ -1,0 +1,12 @@
+{
+  "version": "3.0.0-phase6",
+  "items": [
+    { "index": "1", "type": "SYS_MAPS", "name": "Maps", "emoji": "🗺️" },
+    { "index": "2", "type": "SYS_MAIL", "name": "Mail", "emoji": "📧" },
+    { "index": "3", "type": "SAVE_NOTE", "name": "Notes", "emoji": "📝" },
+    { "index": "4", "type": "SYS_TODO", "name": "Todo", "emoji": "✅" },
+    { "index": "5", "type": "SYS_PHOTOS", "name": "Receipt OCR", "emoji": "📷" },
+    { "index": "6", "type": "SYS_CLOCK", "name": "Remind", "emoji": "⏰" },
+    { "index": "7", "type": "SYS_CALENDAR", "name": "Calendar", "emoji": "📅" }
+  ]
+}

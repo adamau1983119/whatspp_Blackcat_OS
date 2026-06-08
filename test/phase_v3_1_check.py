@@ -102,17 +102,16 @@ def main():
             "const {handleMessage}=require('./lib/handler');"
             "const {getSession,clearAllSessions}=require('./lib/session');"
             "clearAllSessions();"
-            "handleMessage('=開始','m1');"
-            "if(getSession('m1').osState!=='MENU')process.exit(1);",
+            "handleMessage('=開始','m1').then(()=>{"
+            "if(getSession('m1').osState!=='MENU')process.exit(1);});",
         ),
         (
             "MENU +500 blocked",
             "const {handleMessage}=require('./lib/handler');"
             "const {clearAllSessions}=require('./lib/session');"
             "clearAllSessions();"
-            "handleMessage('=開始','m2');"
-            "const r=handleMessage('+500','m2');"
-            "if(!r.reply||!r.reply.includes('請先選擇'))process.exit(1);",
+            "handleMessage('=開始','m2').then(()=>handleMessage('+500','m2'))"
+            ".then(r=>{if(!r.reply||!r.reply.includes('請先選擇'))process.exit(1);});",
         ),
         (
             "enterMenu keeps calc entries",

@@ -187,45 +187,62 @@ flowchart TD
 
 ---
 
-## 四、目錄結構（規劃）
+## 四、目錄結構（Phase 9 現況）
 
 ```
 whatspp_Blackcat_OS/
+├── README.md
 ├── V3OS需求文件.md
-├── V3OS專案架構.md
+├── V3OS專案架構.md          # 本文件
 ├── V3OS工作記錄.md
-├── index.js                      # WhatsApp Transport Adapter（Phase 3 骨架 → Phase 7 完整）
+├── index.js                  # WhatsApp Transport（Phase 8：deliverReply + send-queue）
 ├── package.json
-├── adapters/                     # 未來：捷徑／PWA／眼鏡（Phase 7+，首發不建）
-│   ├── shortcuts-server.js       # 規格伏筆
-│   └── glass-ble.js
 ├── config/
-│   ├── commands.json
-│   ├── messages.json
-│   ├── menu.json
-│   ├── plugins.json              # 含 supported_sources 契約
+│   ├── commands.json         # 指令別名（含 HELP、插件 prefix）
+│   ├── messages.json         # 多語回覆
+│   ├── menu.json             # 主選單 4 項（計算機／Tools Hub／翻譯／遊戲大廳）
+│   ├── tools-menu.json       # Tools Hub 子選單 7 項
+│   ├── game-menu.json        # 遊戲大廳子選單（泡泡龍）
+│   ├── plugins.json          # supported_sources 契約
 │   ├── email-routes.json
-│   └── search-prompts.json
+│   ├── clock-urls.json
+│   ├── search-prompts.json
+│   ├── bookmarks.json        # 地圖書籤骨架
+│   └── bubble/               # 泡泡龍 game.json／game-commands／game-messages
 ├── lib/
-│   ├── ctx-contract.js           # SOURCE／attachment 枚舉（Phase 0）
-│   ├── kernel-sanitizer.js       # 多模態標準化（Phase 1）
-│   ├── plugin-dispatch.js
-│   ├── plugins/
-│   │   ├── maps.js
-│   │   ├── translate.js
-│   │   ├── notes.js
-│   │   └── …
-│   ├── handler.js
-│   ├── session.js
-│   ├── parse.js
-│   └── calc.js（v1 凍結）
+│   ├── ctx-contract.js
+│   ├── kernel-sanitizer.js
+│   ├── whatsapp-adapter.js   # buildCtxFromWhatsApp；getQuotedMessage／downloadMedia 僅在此
+│   ├── send-queue.js         # 每 principalId 序列化 sendMessage
+│   ├── handler.js            # 交通警察；回 { reply }
+│   ├── handler-route.js      # OS 全域、選單、GAME_HUB／GAME_PLAYING
+│   ├── handler-tools.js      # Tools Hub、Fast-track、圖片 OCR 路由
+│   ├── handler-calc.js
+│   ├── plugin-dispatch.js    # 8 秒超時；sync／async execute
+│   ├── help-list.js          # =說明／選單 0
+│   ├── session.js / parse.js / calc.js（v1 凍結邏輯）
+│   ├── client.js / login.js / health.js / preflight.js
+│   ├── search-*.js / translate-resolve.js / mail*.js / calendar-*.js / ocr-*.js
+│   ├── games/
+│   │   ├── bubble-bridge.js  # OS ↔ 泡泡龍核心
+│   │   └── bubble/           # 自 whatapp_cat_game 合流
+│   └── plugins/
+│       ├── maps.js / translate.js / search.js / notes.js
+│       ├── mail.js / todo.js / clock.js / calendar.js / photos.js
+│       ├── game_hub.js / bubble_shooter.js
+│       └── …
 ├── docs/
 │   └── PHASES_v3.md
 └── test/
     ├── audit_hardcode.py
-    ├── verify.py
-    └── verify_v3.py
+    ├── verify.py             # v1 計算機回歸
+    ├── verify_v3.py          # Phase 0～9 累加
+    ├── phase_v3_0_check.py … phase_v3_9_check.py
+    ├── phase9_mock_e2e.test.js   # Transport mock；核心邏輯為真
+    └── verification_status.json
 ```
+
+> **未建目錄（規格伏筆）：** `adapters/shortcuts-server.js`、`adapters/glass-ble.js` — 首發僅 `index.js` 作 WhatsApp Adapter。
 
 ---
 
@@ -233,15 +250,46 @@ whatspp_Blackcat_OS/
 
 | 模組 | 職責 | 行數上限 |
 |------|------|----------|
-| `index.js` | **WhatsApp Adapter**：`message_create`、fromMe 過濾、`buildCtxFromWhatsApp(msg)`、`sendMessage(result.reply)` | ≤150 |
+| `index.js` | **WhatsApp Adapter**：`message_create`、fromMe 過濾、`buildCtxFromWhatsApp`、`deliverReply` → `enqueueSend` → `sendMessage` | ≤150 |
+| `whatsapp-adapter.js` | `msg` → 中立 `ctx`；**唯一** await `getQuotedMessage`／`downloadMedia` | ≤150 |
+| `send-queue.js` | 每 `principalId` 序列化 outbound，防併發亂序 | ≤150 |
 | `ctx-contract.js` | `SOURCE`／`ATTACHMENT_TYPE` 常量；`ctx` 形狀文件化 | ≤30 |
 | `kernel-sanitizer.js` | `normalizeCtx(ctx)` → `attachment.payload` 必為 string | ≤40 |
-| `handler.js` | 入口呼叫 sanitizer；路由優先序；回 `{ reply }`；**不接** WhatsApp API | ≤150 |
+| `handler.js` | sanitizer + 路由優先序；回 `{ reply }`；**不接** WhatsApp API | ≤150 |
+| `handler-route.js` | `PROMPT_GUARD`、OS 全域、主選單、`GAME_HUB`／`GAME_PLAYING` 盲傳 | ≤150 |
+| `handler-tools.js` | Tools Hub 子選單、Fast-track 插件、收據圖 OCR 入口 | ≤150 |
 | `plugin-dispatch.js` | 依 `cmd.type` 載入 `plugins/*.execute`；8 秒超時斷路器 | ≤150 |
-| `parse.js` | exact / prefix / OPERATION；Payload 長度防線；`GLASS_AUDIO` Token Guard 預留 | ≤150 |
-| `session.js` | `principalId` 隔離；`osState`／`appData`；`meta.activeSource` 多軌鎖骨架 | ≤150 |
+| `parse.js` | exact / prefix / OPERATION；Payload 長度防線 | ≤150 |
+| `session.js` | `principalId` 隔離；`osState`／`appData`；`currentGame`；`meta.activeSource` | ≤150 |
 | `calc.js` | 帳本計算（**v1 運算邏輯不變**） | 凍結 |
+| `games/bubble-bridge.js` | 泡泡龍核心橋接（合流自 `whatapp_cat_game`） | ≤150 |
 | `lib/plugins/*.js` | 單一插件；只讀 `ctx.attachment.payload`（string） | ≤150 |
+
+### Handler 路由優先序（Phase 7 定案）
+
+```
+PROMPT_GUARD
+  → GAME_PLAYING（僅 =開始 可退出；其餘盲傳遊戲，不進 parse 主路徑）
+  → Fast-track 插件（=地圖、=翻…）
+  → 圖片 OCR（收據）
+  → Tools Hub 子選單
+  → GAME_HUB 選遊戲
+  → APP_ACTIVE（如地圖 2-Click）
+  → IDLE 插件
+  → OS 全域（=開始／=結束）
+  → MENU 數字
+  → CALC 多輪
+```
+
+### 主選單（Phase 6 後）
+
+| 數字 | 類型 | 說明 |
+|------|------|------|
+| `1` | `SYS_CALC` | 帳本計算機 |
+| `2` | `TOOLS_HUB` | 工具箱子選單（地圖／郵件／備忘／待辦／OCR／提醒／行事曆） |
+| `3` | `SYS_TRANSLATE` | 即時翻譯 |
+| `4` | `GAME_HUB` | 遊戲大廳 → `1` 泡泡龍 → `GAME_PLAYING` |
+| `0` | HELP | 指令表（同 `=說明`） |
 
 ---
 
@@ -291,8 +339,9 @@ function execute(cmd, session, ctx) {
   locale: string,
   osState: 'IDLE' | 'MENU' | 'APP_ACTIVE' | 'TOOLS_HUB' | 'GAME_HUB' | 'GAME_PLAYING' | 'PROMPT_GUARD',
   currentApp: string | null,
+  currentGame: string | null,   // 例：'BUBBLE'
   guard: object | null,
-  appData: { calc: { entries, total }, notes: [], … },
+  appData: { calc: { entries, total }, notes: [], todos: [], … },
   meta: {
     activeSource: 'WHATSAPP',   // 多軌互斥鎖（Phase 1 骨架）
     lockReason: null            // 'CALC' | 'GAME_PLAYING' | null
@@ -331,17 +380,27 @@ function execute(cmd, session, ctx) {
 
 ---
 
-## 十、分階實作（V3 Phase 0～7）
+## 十、分階實作（V3 Phase 0～9）✅
 
-完整 Checklist 見 **[docs/PHASES_v3.md](./docs/PHASES_v3.md)**。
+完整 Checklist 見 **[docs/PHASES_v3.md](./docs/PHASES_v3.md)**。  
+**2026-06-08 驗收：** `python test/verify_v3.py` → **V3 OVERALL [PASS]**（Phase 0～9）。
 
-| Phase | 主交付 | 驗證 |
-|-------|--------|------|
-| **0** | 骨架 + v1 複製 + `audit` + `ctx-contract.js` + `plugins.json`（`supported_sources`） | `phase_v3_0_check.py` |
-| **1** | 狀態機 + `kernel-sanitizer` + handler 回 `{ reply }` + source mutex 骨架 | `phase_v3_1_check.py` |
-| **2** | maps L0 + translate Mock + 4 項 menu + game_hub Mock | `phase_v3_2_check.py` |
-| **3** | `index.js` WhatsApp Adapter + `notes.js`（`attachment.payload`） | `phase_v3_3_check.py` |
-| **4～7** | 搜尋／郵件／Tools Hub／泡泡龍合流 | 見 PHASES_v3.md |
+| Phase | 主交付 | 驗證腳本 | 狀態 |
+|-------|--------|----------|------|
+| **0** | 骨架 + v1 複製 + `audit` + `ctx-contract` + `plugins.json` | `phase_v3_0_check.py` | ✅ |
+| **1** | 狀態機 + `kernel-sanitizer` + handler `{ reply }` | `phase_v3_1_check.py` | ✅ |
+| **2** | maps L0 + 選單 + game_hub 入口 + plugin-dispatch | `phase_v3_2_check.py` | ✅ |
+| **3** | WhatsApp Adapter + `notes.js` 引用備忘 | `phase_v3_3_check.py` | ✅ |
+| **4** | 真實翻譯 API + 搜尋 L0→L1→L2 | `phase_v3_4_check.py` | ✅ |
+| **5** | mail／todo／clock（L0 連結 + BYOK 郵件） | `phase_v3_5_check.py` | ✅ |
+| **6** | calendar／photos OCR／Tools Hub／滿編選單 | `phase_v3_6_check.py` | ✅ |
+| **7** | 泡泡龍合流 + `client`／`login` + `GAME_PLAYING` 鋼鐵特權 | `phase_v3_7_check.py` | ✅ |
+| **8** | Transport 定案：`send-queue` + `deliverReply` | `phase_v3_8_check.py` | ✅ |
+| **9** | Mock Transport 整合測試（核心邏輯為真） | `phase_v3_9_check.py` | ✅ |
+
+**測試分層說明：** `phase9_mock_e2e` 僅 mock **WhatsApp 連線層**（`EventEmitter` 假訊息）；`handleMessage`、插件、計算機、地圖、備忘、遊戲均跑**真實程式**。見 README「絕對原則」第 4 點。
+
+**並列回歸：** 每 Phase 仍須 `audit_hardcode.py` **[PASS]** + `verify.py`（v1 計算機）**[PASS]**。
 
 ---
 
@@ -383,4 +442,4 @@ function execute(cmd, session, ctx) {
 
 ---
 
-*V3OS專案架構 — Version 3 — 2026-06-06（Protocol-Neutral ctx 合約追加）*
+*V3OS專案架構 — Version 3 — 2026-06-08（Phase 0～9 完成；目錄與路由表同步現況）*

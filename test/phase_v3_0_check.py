@@ -71,7 +71,12 @@ def main():
         items = menu.get("items", [])
         check(f"menu items <= {MAX_MENU_ITEMS}", len(items) <= MAX_MENU_ITEMS, str(len(items)))
         types = {i.get("type") for i in items}
-        check("menu has SYS_MAPS", "SYS_MAPS" in types)
+        tools_path = ROOT / "config" / "tools-menu.json"
+        maps_ok = "SYS_MAPS" in types
+        if not maps_ok and "TOOLS_HUB" in types and tools_path.is_file():
+            tool_types = {i.get("type") for i in json.loads(tools_path.read_text(encoding="utf-8")).get("items", [])}
+            maps_ok = "SYS_MAPS" in tool_types
+        check("menu maps reachable (SYS_MAPS or TOOLS_HUB)", maps_ok)
         check("menu has GAME_HUB", "GAME_HUB" in types)
 
     plugins_path = ROOT / "config" / "plugins.json"

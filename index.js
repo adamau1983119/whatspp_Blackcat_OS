@@ -1,8 +1,10 @@
 /**
- * index.js — WhatsApp 入口（Phase 8）
+ * index.js — WhatsApp 入口（Transport Adapter，Phase 8）
+ * message_create + fromMe 過濾 + Quoted Pipeline + sendQueue
  */
 
 require('./lib/wweb-goto-patch').patchWhatsAppGoto();
+const { buildCtxFromWhatsApp } = require('./lib/whatsapp-adapter');
 const { createClient, hasStoredSession, logBootEnv } = require('./lib/client');
 const {
   promptLoginMethod,
@@ -25,22 +27,27 @@ const {
   publicQrUrl,
 } = require('./lib/health');
 const { verifyChromiumLaunch } = require('./lib/preflight');
+const { enqueueSend } = require('./lib/send-queue');
+
+async function deliverReply(client, principalId, text) {
+  if (!text) return;
+  await enqueueSend(principalId, () => client.sendMessage(principalId, text));
+}
 
 function setupMessageCreate(client) {
   client.on('message_create', async (msg) => {
     if (!msg.fromMe) return;
-    const chatId = msg.to;
-    const text = (msg.body || '').trim();
     try {
-      console.log('[msg]', chatId, text);
-      const result = handleMessage(text, chatId, { source: 'WHATSAPP' });
-      const response = result && result.reply;
-      if (response) await client.sendMessage(chatId, response);
+      const ctx = await buildCtxFromWhatsApp(msg);
+      console.log('[msg]', ctx.principalId, ctx.text);
+      const result = await handleMessage(ctx.text, ctx.principalId, ctx);
+      await deliverReply(client, ctx.principalId, result && result.reply);
     } catch (e) {
       console.error('[msg] error:', e);
       try {
+        const chatId = String(msg.to || '');
         const locale = getSession(chatId).locale;
-        await client.sendMessage(chatId, t(locale, 'calcError'));
+        await deliverReply(client, chatId, t(locale, 'calcError'));
       } catch (_) {}
     }
   });
@@ -133,4 +140,6 @@ if (require.main === module) {
 module.exports = {
   setupMessageCreate,
   start,
+  buildCtxFromWhatsApp,
+  deliverReply,
 };

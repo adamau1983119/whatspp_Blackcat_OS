@@ -1,0 +1,5 @@
+{
+  "version": "1.0.0-phase5",
+  "googleCalendarTemplate": "https://calendar.google.com/calendar/render?action=TEMPLATE&text={title}&dates={start}/{end}",
+  "defaultDurationMinutes": 60
+}

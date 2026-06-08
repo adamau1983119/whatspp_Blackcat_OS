@@ -1,0 +1,19 @@
+{
+  "defaultLocale": "zh-TW",
+  "zh-TW": {
+    "gameTitle": "🐱 小黑貓泡泡龍",
+    "gameStarted": "遊戲開始！L/R 調瞄準角度，F 發射",
+    "gameEnded": "遊戲結束！最終分數：{score}",
+    "gameOver": "Game Over！分數：{score}",
+    "lastPlayer": "最後操作：{name}",
+    "controls": "👉 L 角度左調 / R 角度右調 / F 發射 / =結束（· 為瞄準線）"
+  },
+  "en": {
+    "gameTitle": "🐱 Bubble Cat",
+    "gameStarted": "Game on! L left / R right / F fire",
+    "gameEnded": "Game ended. Score: {score}",
+    "gameOver": "Game Over! Score: {score}",
+    "lastPlayer": "Last: {name}",
+    "controls": "👉 L / R / F / =end"
+  }
+}

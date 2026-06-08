@@ -54,6 +54,8 @@
 | 5 | `test/phase_v3_5_check.py` | 待建立 |
 | 6 | `test/phase_v3_6_check.py` | 待建立 |
 | 7 | `test/phase_v3_7_check.py` | 待建立 |
+| 8 | `test/phase_v3_8_check.py` | 待建立 |
+| 9 | `test/phase_v3_9_check.py` | 待建立 |
 
 ```powershell
 python test\audit_hardcode.py
@@ -461,6 +463,48 @@ const ctx = {
 - [ ] `python test/audit_hardcode.py` → `[PASS]`
 - [ ] `python test/verify_v3.py` → `OVERALL: [PASS]`
 - [ ] `python test/verify.py` → `OVERALL: [PASS]`
+
+---
+
+### Phase 8 — WhatsApp Transport 正式驗收 `[ ]`
+
+**產出：**
+- `lib/send-queue.js`：每 `principalId` 序列化 `sendMessage`（佇列預留）
+- `index.js`：`deliverReply` + `enqueueSend`；`message_create` + `fromMe` + Quoted Pipeline
+- `test/transport_v3.test.js`
+
+**驗證：** `python test/phase_v3_8_check.py`
+
+**Checklist：**
+- [ ] `index.js` 使用 `message_create`（非 `message`）
+- [ ] `if (!msg.fromMe) return` 過濾他人訊息
+- [ ] `buildCtxFromWhatsApp` 處理引用／圖片
+- [ ] `send-queue` 序列化送訊
+- [ ] `python test/phase8_check.py` → `[PASS]`
+- [ ] `python test/audit_hardcode.py` → `[PASS]`
+- [ ] `python test/verify.py` → `OVERALL: [PASS]`
+
+---
+
+### Phase 9 — Mock 整合測試 `[ ]`
+
+**產出：**
+- `test/phase9_mock_e2e.test.js`：v1 計算機全鏈 + V3 OS（選單／地圖／遊戲大廳／引用備忘）
+- 覆蓋：session 隔離、未知指令不回覆、`/0` 不崩潰、全形 `＝開始`
+
+**驗證：** `python test/phase_v3_9_check.py`
+
+**Checklist：**
+- [ ] mock e2e：`=開始` → 計算機 `+500` `+1200` 軌跡正確
+- [ ] `修改`／`退回`／`=結束` 正確
+- [ ] A／B 兩 chat session 獨立
+- [ ] 他人訊息（`fromMe: false`）不回覆
+- [ ] V3：`=地圖` Fast-track、`=說明`、`GAME_HUB` 擋 `+500`
+- [ ] 引用 + `=記` 經 Transport 寫入備忘錄
+- [ ] `python test/phase9_check.py` → `[PASS]`
+- [ ] `python test/verify_v3.py` → `OVERALL: [PASS]`
+
+**實機（手動）：** QR／配對碼登入後重跑上述流程。
 
 ---
 

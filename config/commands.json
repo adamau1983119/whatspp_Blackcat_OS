@@ -22,6 +22,9 @@
     { "type": "SETTLE", "locale": "zh-TW", "aliases": ["=結算"] },
     { "type": "SETTLE", "locale": "en", "aliases": ["=settle"] },
 
+    { "type": "HELP", "locale": "zh-TW", "aliases": ["=說明"] },
+    { "type": "HELP", "locale": "en", "aliases": ["=help"] },
+
     { "type": "UNDO", "locale": "zh-TW", "aliases": ["退回"] },
     { "type": "UNDO", "locale": "en", "aliases": ["undo"] },
     { "type": "UNDO", "locale": "ko", "aliases": ["되돌리기"] },
@@ -40,5 +43,30 @@
     { "type": "MODIFY", "locale": "de", "aliases": ["aendern", "ändern"] },
     { "type": "MODIFY", "locale": "pt", "aliases": ["alterar"] },
     { "type": "MODIFY", "locale": "ja", "aliases": ["修正"] }
+  ],
+  "plugins": [
+    { "type": "SYS_MAPS", "locale": "zh-TW", "aliases": ["=地圖"] },
+    { "type": "SYS_MAPS", "locale": "en", "aliases": ["=map", "=maps"] },
+    { "type": "SYS_TRANSLATE", "locale": "zh-TW", "aliases": ["=翻"] },
+    { "type": "SYS_TRANSLATE", "locale": "en", "aliases": ["=translate", "=tr"] },
+    { "type": "SAVE_NOTE", "locale": "zh-TW", "aliases": ["=記"] },
+    { "type": "SAVE_NOTE", "locale": "zh-TW", "aliases": ["=筆記"] },
+    { "type": "SAVE_NOTE", "locale": "en", "aliases": ["=note"] },
+    { "type": "SYS_SEARCH", "locale": "zh-TW", "aliases": ["=查"] },
+    { "type": "SYS_SEARCH_ASK", "locale": "zh-TW", "aliases": ["=問"] },
+    { "type": "SYS_SEARCH", "locale": "en", "aliases": ["=search"] },
+    { "type": "SYS_SEARCH_ASK", "locale": "en", "aliases": ["=ask"] },
+    { "type": "SYS_MAIL", "locale": "zh-TW", "aliases": ["=email", "=郵件"] },
+    { "type": "SYS_MAIL", "locale": "en", "aliases": ["=mail"] },
+    { "type": "SYS_TODO", "locale": "zh-TW", "aliases": ["=待辦"] },
+    { "type": "SYS_TODO_LIST", "locale": "zh-TW", "aliases": ["=看待辦"] },
+    { "type": "SYS_TODO", "locale": "en", "aliases": ["=todo"] },
+    { "type": "SYS_TODO_LIST", "locale": "en", "aliases": ["=listtodo"] },
+    { "type": "SYS_CLOCK", "locale": "zh-TW", "aliases": ["=提醒我"] },
+    { "type": "SYS_CLOCK", "locale": "en", "aliases": ["=remind"] },
+    { "type": "SYS_CALENDAR", "locale": "zh-TW", "aliases": ["=行程"] },
+    { "type": "SYS_CALENDAR", "locale": "en", "aliases": ["=calendar"] },
+    { "type": "SYS_PHOTOS", "locale": "zh-TW", "aliases": ["=識"] },
+    { "type": "SYS_PHOTOS", "locale": "en", "aliases": ["=scan"] }
   ]
 }

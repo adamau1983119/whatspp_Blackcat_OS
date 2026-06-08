@@ -1,0 +1,6 @@
+{
+  "version": "3.0.0-phase7",
+  "items": [
+    { "index": "1", "type": "BUBBLE", "name": "泡泡龍", "emoji": "🎯", "enabled": true }
+  ]
+}

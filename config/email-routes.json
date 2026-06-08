@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0-phase5",
+  "defaultSubject": "黑貓 OS 郵件",
+  "routes": {
+    "小明": "xiaoming@example.com",
+    "老闆": "boss@company.com",
+    "boss": "boss@company.com"
+  }
+}

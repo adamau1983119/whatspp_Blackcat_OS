@@ -12,6 +12,14 @@ PHASE_SCRIPTS = [
     ROOT / "test" / "audit_hardcode.py",
     ROOT / "test" / "phase_v3_0_check.py",
     ROOT / "test" / "phase_v3_1_check.py",
+    ROOT / "test" / "phase_v3_2_check.py",
+    ROOT / "test" / "phase_v3_3_check.py",
+    ROOT / "test" / "phase_v3_4_check.py",
+    ROOT / "test" / "phase_v3_5_check.py",
+    ROOT / "test" / "phase_v3_6_check.py",
+    ROOT / "test" / "phase_v3_7_check.py",
+    ROOT / "test" / "phase_v3_8_check.py",
+    ROOT / "test" / "phase_v3_9_check.py",
 ]
 
 

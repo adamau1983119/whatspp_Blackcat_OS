@@ -1,0 +1,7 @@
+{
+  "version": "3.0.0-phase6",
+  "places": [
+    { "name": "公司", "query": "香港中環" },
+    { "name": "屋企", "query": "銅鑼灣" }
+  ]
+}
