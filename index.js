@@ -27,16 +27,12 @@ const {
   publicQrUrl,
 } = require('./lib/health');
 const { verifyChromiumLaunch } = require('./lib/preflight');
-const { enqueueSend } = require('./lib/send-queue');
-
-async function deliverReply(client, principalId, text) {
-  if (!text) return;
-  await enqueueSend(principalId, () => client.sendMessage(principalId, text));
-}
+const { deliverReply, consumeEcho } = require('./lib/send-queue');
 
 function setupMessageCreate(client) {
   client.on('message_create', async (msg) => {
     if (!msg.fromMe) return;
+    if (consumeEcho(msg)) return;
     try {
       const ctx = await buildCtxFromWhatsApp(msg);
       console.log('[msg]', ctx.principalId, ctx.text);

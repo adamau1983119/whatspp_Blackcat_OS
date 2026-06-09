@@ -2,8 +2,33 @@
 
 > 客戶需求見 **[V3OS需求文件.md](../V3OS需求文件.md)**  
 > 架構見 **[V3OS專案架構.md](../V3OS專案架構.md)**  
+> **V3.1 增量 Phase** 見 **[PHASES_v31.md](./PHASES_v31.md)**（Phase 10～14）  
 > 微核心源自 [whatsapp_calculator](../whatsapp_calculator) Version 1（`v1.0.0` 凍結）  
 > 計算機（`calc.js`）視為 **v1 已完成**；每 Phase 須跑 `python test/verify.py` 回歸。
+
+---
+
+## V3.0 里程碑驗收狀態
+
+| 項目 | 說明 |
+|------|------|
+| **官方里程碑** | 2026-06-08：`python test/verify_v3.py` → **V3 OVERALL [PASS]**（Phase 0～9） |
+| **備份** | `backups/whatspp_Blackcat_OS_v3.0-milestone_2026-06-09.zip`（含 V3.1 規格文件；排除 `node_modules`／`.wwebjs_auth`／`.git`） |
+| **凍結** | V3.0 Checklist 以下 Phase 0～9 標記 **`[√]`**；後續開發走 **V3.1** `PHASES_v31.md` |
+| **備註** | 工作樹若有郵件 HTTP 改版等 WIP，`verify_v3` 可能暫時 FAIL，以備份時點或 V3.1 Phase 收斂後再全綠 |
+
+| Phase | 腳本 | 里程碑 |
+|-------|------|--------|
+| 0 | `phase_v3_0_check.py` | `[√]` |
+| 1 | `phase_v3_1_check.py` | `[√]` |
+| 2 | `phase_v3_2_check.py` | `[√]` |
+| 3 | `phase_v3_3_check.py` | `[√]` |
+| 4 | `phase_v3_4_check.py` | `[√]` |
+| 5 | `phase_v3_5_check.py` | `[√]` |
+| 6 | `phase_v3_6_check.py` | `[√]` |
+| 7 | `phase_v3_7_check.py` | `[√]` |
+| 8 | `phase_v3_8_check.py` | `[√]` |
+| 9 | `phase_v3_9_check.py` | `[√]` |
 
 ---
 
@@ -46,16 +71,16 @@
 
 | Phase | 腳本 | 狀態 |
 |-------|------|------|
-| 0 | `test/phase_v3_0_check.py` | 待建立 |
-| 1 | `test/phase_v3_1_check.py` | 待建立 |
-| 2 | `test/phase_v3_2_check.py` | 待建立 |
-| 3 | `test/phase_v3_3_check.py` | 待建立 |
-| 4 | `test/phase_v3_4_check.py` | 待建立 |
-| 5 | `test/phase_v3_5_check.py` | 待建立 |
-| 6 | `test/phase_v3_6_check.py` | 待建立 |
-| 7 | `test/phase_v3_7_check.py` | 待建立 |
-| 8 | `test/phase_v3_8_check.py` | 待建立 |
-| 9 | `test/phase_v3_9_check.py` | 待建立 |
+| 0 | `test/phase_v3_0_check.py` | `[√]` 已驗收（2026-06-08） |
+| 1 | `test/phase_v3_1_check.py` | `[√]` 已驗收 |
+| 2 | `test/phase_v3_2_check.py` | `[√]` 已驗收 |
+| 3 | `test/phase_v3_3_check.py` | `[√]` 已驗收 |
+| 4 | `test/phase_v3_4_check.py` | `[√]` 已驗收 |
+| 5 | `test/phase_v3_5_check.py` | `[√]` 已驗收 |
+| 6 | `test/phase_v3_6_check.py` | `[√]` 已驗收 |
+| 7 | `test/phase_v3_7_check.py` | `[√]` 已驗收 |
+| 8 | `test/phase_v3_8_check.py` | `[√]` 已驗收 |
+| 9 | `test/phase_v3_9_check.py` | `[√]` 已驗收 |
 
 ```powershell
 python test\audit_hardcode.py
@@ -224,7 +249,7 @@ const ctx = {
 
 ## 各 Phase 詳細說明
 
-### Phase 0 — 專案骨架與硬編碼閘門 `[ ]`
+### Phase 0 — 專案骨架與硬編碼閘門 `[√]`
 
 **產出：**
 - 自 v1 複製：`package.json`、`lib/calc.js`、`lib/format.js`、`lib/messages.js`、`lib/parse.js`、`lib/session.js`、`lib/handler.js`、`config/commands.json`、`config/messages.json`
@@ -253,7 +278,7 @@ const ctx = {
 
 ---
 
-### Phase 1 — V3 狀態機與交通警察骨架 `[ ]`
+### Phase 1 — V3 狀態機與交通警察骨架 `[√]`
 
 **產出：**
 - `lib/kernel-sanitizer.js`：`normalizeCtx(ctx)` → `attachment.payload` 必為 string
@@ -291,7 +316,7 @@ const ctx = {
 
 ---
 
-### Phase 2 — 破冰特遣隊：地圖 + 翻譯 Mock + 選單 + 遊戲大廳 Mock `[ ]`
+### Phase 2 — 破冰特遣隊：地圖 + 翻譯 Mock + 選單 + 遊戲大廳 Mock `[√]`
 
 **產出：**
 - `lib/plugin-dispatch.js`：`execute(cmd, session, ctx)` 契約 + try/catch 隔離
@@ -334,7 +359,7 @@ const ctx = {
 
 ---
 
-### Phase 3 — 備忘錄：WhatsApp Adapter + `=記` `[ ]`
+### Phase 3 — 備忘錄：WhatsApp Adapter + `=記` `[√]`
 
 **產出：**
 - `index.js` **WhatsApp Transport Adapter**：`buildCtxFromWhatsApp(msg)`；`getQuotedMessage()` **僅在此** await → `attachment.payload`／`attachment.type`
@@ -360,7 +385,7 @@ const ctx = {
 
 ---
 
-### Phase 4 — 翻譯 API + 搜尋（Safari 殺手級 L0/L1）`[ ]`
+### Phase 4 — 翻譯 API + 搜尋（Safari 殺手級 L0/L1）`[√]`
 
 **產出：**
 - `lib/plugins/translate.js`：接 `@vitalets/google-translate-api` 或同級；無 Key 時教學文案
@@ -385,7 +410,7 @@ const ctx = {
 
 ---
 
-### Phase 5 — 郵件 + 待辦 + 提醒（Clock）`[ ]`
+### Phase 5 — 郵件 + 待辦 + 提醒（Clock）`[√]`
 
 **產出：**
 - `lib/plugins/mail.js`：**L0 `mailto:`** 預填收件人／內文（`email-routes.json`）；L1 可選 nodemailer BYOK
@@ -415,7 +440,7 @@ const ctx = {
 
 ---
 
-### Phase 6 — 行事曆 + 相片 OCR + Tools Hub + 滿編選單 `[ ]`
+### Phase 6 — 行事曆 + 相片 OCR + Tools Hub + 滿編選單 `[√]`
 
 **產出：**
 - `lib/plugins/calendar.js`：無 API → **L0** `calendarOpenNative` 連結；有 BYOK → 今／明 ≤3 筆唯讀快照＋連結移交 iOS
@@ -440,7 +465,7 @@ const ctx = {
 
 ---
 
-### Phase 7 — 遊戲合流 + WhatsApp 連線層 `[ ]`
+### Phase 7 — 遊戲合流 + WhatsApp 連線層 `[√]`
 
 **產出：**
 - `lib/plugins/bubble_shooter.js`：薄 wrapper `require` 泡泡龍核心（或 Phase 7 Mock 透傳 `L`/`R`/`F`）
@@ -466,7 +491,7 @@ const ctx = {
 
 ---
 
-### Phase 8 — WhatsApp Transport 正式驗收 `[ ]`
+### Phase 8 — WhatsApp Transport 正式驗收 `[√]`
 
 **產出：**
 - `lib/send-queue.js`：每 `principalId` 序列化 `sendMessage`（佇列預留）
@@ -486,7 +511,7 @@ const ctx = {
 
 ---
 
-### Phase 9 — Mock 整合測試 `[ ]`
+### Phase 9 — Mock 整合測試 `[√]`
 
 **產出：**
 - `test/phase9_mock_e2e.test.js`：v1 計算機全鏈 + V3 OS（選單／地圖／遊戲大廳／引用備忘）

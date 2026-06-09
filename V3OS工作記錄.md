@@ -441,4 +441,61 @@ npm start
 
 ---
 
+## 2026-06-09（V3.1 規格分支 — 文件移交）
+
+V3.0 Phase 0～9 里程碑**凍結**於本文件與 V3OS 三件套；後續開發規格見 **V3.1**：
+
+| 文件 | 連結 |
+|------|------|
+| V3.1 需求 | [V31OS需求文件.md](./V31OS需求文件.md) |
+| V3.1 架構 | [V31OS專案架構.md](./V31OS專案架構.md) |
+| V3.1 Phase | [docs/PHASES_v31.md](./docs/PHASES_v31.md) |
+| V3.1 工作記錄 | [V31OS工作記錄.md](./V31OS工作記錄.md) |
+
+---
+
+## 2026-06-09（V3.0 里程碑備份 + Checklist 凍結）
+
+### 一、本機檔案備份
+
+| 項目 | 內容 |
+|------|------|
+| ZIP | `D:\Users\Ophelia Chan\Desktop\MY Project\backups\whatspp_Blackcat_OS_v3.0-milestone_2026-06-09.zip`（約 4.95 MB） |
+| 前次備份 | `whatspp_Blackcat_OS_v3-phase9_2026-06-08.zip` |
+| 排除 | `node_modules`、`.wwebjs_auth`、`.git`、`__pycache__`、`.cursor` |
+| 含新增 | V31OS 三件套、`docs/PHASES_v31.md`、郵件 HTTP 改版 WIP、`bot-reply-guard.js` 等 |
+| 還原後 | 解壓 → `npm install` → 可 `npm start` |
+
+### 二、Checklist 文件更新
+
+| 檔案 | 更新 |
+|------|------|
+| `docs/PHASES_v3.md` | 新增 **V3.0 里程碑驗收狀態** 表；Phase 0～9 標題改 **`[√]`**；腳本狀態改 **已驗收**；連結 `PHASES_v31.md` |
+| `V3OS專案架構.md` | §十備份路徑、§十四 V3.1 分支、目錄樹增量模組 |
+
+### 三、驗證快照（備份當日 `python test/verify_v3.py`）
+
+| 腳本 | 結果 | 備註 |
+|------|------|------|
+| `audit_hardcode.py` | **PASS** | |
+| `phase_v3_0_check` | **PASS** | |
+| `phase_v3_1_check` | **PASS** | |
+| `phase_v3_2`～`9` | **部分 FAIL** | 工作樹 WIP（郵件 `buildPublicMailUrl`、舊 `verify.py` 檢查 `sendMessage` 等）與 2026-06-08 里程碑腳本不同步 |
+| **里程碑基準** | 2026-06-08 曾 **V3 OVERALL [PASS]** | 以備份 ZIP + Phase 標題 `[√]` 為 V3.0 凍結依據；全綠待 V3.1 Phase 10 起收斂或還原至 06-08 樹 |
+
+### 四、Git 狀態（備份時）
+
+| 項目 | 內容 |
+|------|------|
+| HEAD | `6ca8f13` — docs: record Phase 1-9 git push |
+| 工作樹 | 未提交：郵件改版、V31 規格文件、`bot-reply-guard` 等 |
+| **V3.1 上 Git** | **尚未** — 見 [V31OS工作記錄.md](./V31OS工作記錄.md)「Git 現況澄清」 |
+
+### 五、版本線宣告
+
+- **V3.0**：Phase 0～9 凍結；`PHASES_v3.md` Checklist 不再擴充  
+- **V3.1**：Phase 10～14；見 `docs/PHASES_v31.md`  
+
+---
+
 *（以下請只追加新日期段落，勿刪改上方內容）*

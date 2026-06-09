@@ -4,6 +4,9 @@
   "routes": {
     "小明": "xiaoming@example.com",
     "老闆": "boss@company.com",
-    "boss": "boss@company.com"
+    "boss": "boss@company.com",
+    "Adam": "a.adam1983119@gmail.com",
+    "測試": "a.adam1983119@gmail.com",
+    "test": "a.adam1983119@gmail.com"
   }
 }

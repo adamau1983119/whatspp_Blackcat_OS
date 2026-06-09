@@ -67,11 +67,11 @@ def main():
 
     mail_code = strip_comments((ROOT / "lib/plugins/mail.js").read_text(encoding="utf-8"))
     check("mail.js uses mailto", "mailto" in mail_code or "buildMailtoUrl" in mail_code)
-    check("mail.js has mailSendDisclaimer path", "mailSendDisclaimer" in mail_code)
+    check("mail.js uses buildMailtoUrl", "buildMailtoUrl" in mail_code)
 
     msgs = (ROOT / "config/messages.json").read_text(encoding="utf-8")
     check("messages clockHandoffDisclaimer", '"clockHandoffDisclaimer"' in msgs)
-    check("messages mailSendDisclaimer", '"mailSendDisclaimer"' in msgs)
+    check("messages mailL0Result", '"mailL0Result"' in msgs)
     check("messages forbid 已為你設定提醒", "已為你設定提醒" not in msgs)
     check("messages forbid 保證送達 alone", "保證送達" not in msgs or "不保證送達" in msgs)
 
@@ -89,8 +89,8 @@ def main():
             "const {handleMessage}=require('./lib/handler');"
             "const {getSession,clearAllSessions}=require('./lib/session');"
             "clearAllSessions();"
-            "handleMessage('=email 寄給小明：測試','p5a').then(r=>{"
-            "if(!r.reply.includes('mailto:'))process.exit(1);"
+            "handleMessage('=email','p5a').then(r=>handleMessage('1','p5a')).then(r=>{"
+            "if(!r.reply.includes('/mail?'))process.exit(1);"
             "if(getSession('p5a').osState!=='IDLE')process.exit(2);});",
         ),
         (

@@ -187,14 +187,17 @@ flowchart TD
 
 ---
 
-## 四、目錄結構（Phase 9 現況）
+## 四、目錄結構（V3.0 里程碑 + V3.1 規格）
 
 ```
 whatspp_Blackcat_OS/
 ├── README.md
-├── V3OS需求文件.md
+├── V3OS需求文件.md           # V3.0 基線需求（凍結）
 ├── V3OS專案架構.md          # 本文件
 ├── V3OS工作記錄.md
+├── V31OS需求文件.md          # V3.1 群組聯動特區
+├── V31OS專案架構.md
+├── V31OS工作記錄.md
 ├── index.js                  # WhatsApp Transport（Phase 8：deliverReply + send-queue）
 ├── package.json
 ├── config/
@@ -213,7 +216,8 @@ whatspp_Blackcat_OS/
 │   ├── ctx-contract.js
 │   ├── kernel-sanitizer.js
 │   ├── whatsapp-adapter.js   # buildCtxFromWhatsApp；getQuotedMessage／downloadMedia 僅在此
-│   ├── send-queue.js         # 每 principalId 序列化 sendMessage
+│   ├── send-queue.js         # 每 principalId 序列化 sendMessage；consumeEcho 回音防護
+│   ├── bot-reply-guard.js    # 過濾 bot 自身回覆觸發迴圈（menuBlocked 修復）
 │   ├── handler.js            # 交通警察；回 { reply }
 │   ├── handler-route.js      # OS 全域、選單、GAME_HUB／GAME_PLAYING
 │   ├── handler-tools.js      # Tools Hub、Fast-track、圖片 OCR 路由
@@ -232,7 +236,9 @@ whatspp_Blackcat_OS/
 │       ├── game_hub.js / bubble_shooter.js
 │       └── …
 ├── docs/
-│   └── PHASES_v3.md
+│   ├── PHASES_v3.md          # V3.0 Phase 0～9（里程碑 [√]）
+│   ├── PHASES_v31.md         # V3.1 Phase 10～14（待實作）
+│   └── AI第三方專家簡報.md
 └── test/
     ├── audit_hardcode.py
     ├── verify.py             # v1 計算機回歸
@@ -380,10 +386,11 @@ function execute(cmd, session, ctx) {
 
 ---
 
-## 十、分階實作（V3 Phase 0～9）✅
+## 十、分階實作（V3 Phase 0～9）✅ 已凍結
 
-完整 Checklist 見 **[docs/PHASES_v3.md](./docs/PHASES_v3.md)**。  
-**2026-06-08 驗收：** `python test/verify_v3.py` → **V3 OVERALL [PASS]**（Phase 0～9）。
+完整 Checklist 見 **[docs/PHASES_v3.md](./docs/PHASES_v3.md)**（Phase 0～9 標題 **`[√]`**）。  
+**2026-06-08 驗收：** `python test/verify_v3.py` → **V3 OVERALL [PASS]**（Phase 0～9）。  
+**2026-06-09 備份：** `backups/whatspp_Blackcat_OS_v3.0-milestone_2026-06-09.zip`（含 V3.1 規格與郵件 WIP）。
 
 | Phase | 主交付 | 驗證腳本 | 狀態 |
 |-------|--------|----------|------|
@@ -432,14 +439,27 @@ function execute(cmd, session, ctx) {
 
 ---
 
-## 相關文件（V3OS 三件套）
+## 十四、Version 3.1 分支（增量，不取代 V3.0）
+
+| 項目 | 說明 |
+|------|------|
+| 定位 | 群組生存合約 + 北極星 `lastContext` 鏈 + OCR 斷路器 |
+| Phase | **10～14** 見 [docs/PHASES_v31.md](./docs/PHASES_v31.md) |
+| 規格 | [V31OS需求文件.md](./V31OS需求文件.md)、[V31OS專案架構.md](./V31OS專案架構.md) |
+| 預計新增 | `lib/group-gate.js`、`lib/llm-provider.js`、`session.appData.lastContext` |
+| V3.0 關係 | Phase 0～9 **凍結**；未設 `ALLOWED_GROUPS` 時行為與 V3.0 一致 |
+
+---
+
+## 相關文件
 
 | 文件 | 連結 |
 |------|------|
-| 需求規格 | [V3OS需求文件.md](./V3OS需求文件.md) |
-| 工作記錄 | [V3OS工作記錄.md](./V3OS工作記錄.md) |
+| V3.0 需求 | [V3OS需求文件.md](./V3OS需求文件.md) |
+| V3.0 工作記錄 | [V3OS工作記錄.md](./V3OS工作記錄.md) |
+| V3.1 需求／架構／Phase | [V31OS需求文件.md](./V31OS需求文件.md) · [V31OS專案架構.md](./V31OS專案架構.md) · [PHASES_v31.md](./docs/PHASES_v31.md) |
 | v1 架構 | [../whatsapp_calculator/專案整體架構表.md](../whatsapp_calculator/專案整體架構表.md) |
 
 ---
 
-*V3OS專案架構 — Version 3 — 2026-06-08（Phase 0～9 完成；目錄與路由表同步現況）*
+*V3OS專案架構 — Version 3（凍結）+ V3.1 索引 — 2026-06-09*

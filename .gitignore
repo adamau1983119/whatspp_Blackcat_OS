@@ -1,6 +1,8 @@
 node_modules/
 .wwebjs_auth/
+.wwebjs_auth.backup_*/
 .wwebjs_cache/
+*.traineddata
 .env
 session.json
 verification_status.json

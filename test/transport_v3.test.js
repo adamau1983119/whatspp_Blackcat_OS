@@ -50,6 +50,65 @@ function waitTick() {
   assert.ok(sent.length >= 1);
   assert.ok(sent[0].text.includes('黑貓 OS') || sent[0].text.includes('Blackcat'));
 
+  client.emit('message_create', {
+    fromMe: true,
+    to: 't2',
+    body: sent[0].text,
+    hasQuotedMsg: false,
+  });
+  await waitTick();
+  await waitTick();
+  assert.strictEqual(sent.length, 1, 'bot echo must not re-trigger reply loop');
+
+  client.emit('message_create', {
+    fromMe: true,
+    to: 't3',
+    body: '=開始',
+    hasQuotedMsg: false,
+  });
+  await waitTick();
+  await waitTick();
+  const menuBody = sent.at(-1).text;
+  assert.ok(menuBody.includes('黑貓 OS') || menuBody.includes('Blackcat'));
+  const beforeMenuEcho = sent.length;
+  client.emit('message_create', {
+    fromMe: true,
+    to: 't3',
+    body: menuBody,
+    hasQuotedMsg: false,
+  });
+  await waitTick();
+  await waitTick();
+  assert.strictEqual(sent.length, beforeMenuEcho, 'OS_MENU echo must not emit menuBlocked');
+
+  client.emit('message_create', {
+    fromMe: true,
+    to: 't4',
+    body: '=開始',
+    hasQuotedMsg: false,
+  });
+  await waitTick();
+  await waitTick();
+  client.emit('message_create', {
+    fromMe: true,
+    to: 't4',
+    body: '2',
+    hasQuotedMsg: false,
+  });
+  await waitTick();
+  await waitTick();
+  const toolsMenu = sent.at(-1).text;
+  const beforeToolsEcho = sent.length;
+  client.emit('message_create', {
+    fromMe: true,
+    to: 't4',
+    body: toolsMenu,
+    hasQuotedMsg: false,
+  });
+  await waitTick();
+  await waitTick();
+  assert.strictEqual(sent.length, beforeToolsEcho, 'TOOLS_HUB_MENU echo must not emit toolsBlocked');
+
   resetSendQueues();
   const order = [];
   const mockClient = { sendMessage: async () => { order.push('done'); } };

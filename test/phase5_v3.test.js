@@ -5,14 +5,19 @@
 const assert = require('assert');
 const { handleMessage } = require('../lib/handler');
 const { getSession, clearAllSessions } = require('../lib/session');
-const { buildMailtoUrl } = require('../lib/mailto');
+const { buildMailtoUrl, buildPublicMailUrl } = require('../lib/mailto');
 const { parseReminderText } = require('../lib/time-parse');
 const { buildCalendarTemplateUrl } = require('../lib/calendar-url');
 
 (async () => {
-  const mailto = buildMailtoUrl('test@example.com', 'Hi', 'Body');
+  const mailto = buildMailtoUrl('', 'Hi', '');
   assert.ok(mailto.startsWith('mailto:'));
   assert.ok(mailto.includes('subject='));
+  assert.ok(!mailto.includes('body='));
+
+  const localUrl = buildPublicMailUrl('黑貓 OS 郵件', '', { target: 'local' });
+  assert.ok(localUrl.includes('localhost'));
+  assert.ok(localUrl.includes('/mail?'));
 
   const parsed = parseReminderText('15分鐘後開會');
   assert.ok(parsed);
@@ -22,10 +27,33 @@ const { buildCalendarTemplateUrl } = require('../lib/calendar-url');
   assert.ok(cal.includes('calendar.google.com'));
 
   clearAllSessions();
-  const mail = await handleMessage('=email 寄給小明：週報已附上', 'p5-mail');
-  assert.ok(mail.reply.includes('mailto:'));
+  const mailEntry = await handleMessage('=email', 'p5-mail');
+  assert.ok(mailEntry.reply.includes('黑貓郵件') || mailEntry.reply.includes('Blackcat Mail'));
+  assert.ok(mailEntry.reply.includes('1'));
+  assert.strictEqual(getSession('p5-mail').currentApp, 'MAIL');
+
+  const mailLocal = await handleMessage('1', 'p5-mail');
+  assert.ok(mailLocal.reply.includes('/mail?'));
+  assert.ok(mailLocal.reply.includes('localhost'));
   assert.strictEqual(getSession('p5-mail').osState, 'IDLE');
-  assert.ok(!mail.reply.includes('保證送達') || mail.reply.includes('不保證'));
+
+  clearAllSessions();
+  await handleMessage('=開始', 'p5-hub');
+  await handleMessage('2', 'p5-hub');
+  const mailHub = await handleMessage('2', 'p5-hub');
+  assert.ok(mailHub.reply.includes('請選擇') || mailHub.reply.includes('Where to open'));
+  assert.strictEqual(getSession('p5-hub').currentApp, 'MAIL');
+
+  const mailHubLink = await handleMessage('1', 'p5-hub');
+  assert.ok(mailHubLink.reply.includes('/mail?'));
+
+  clearAllSessions();
+  const prevDomain = process.env.RAILWAY_PUBLIC_DOMAIN;
+  process.env.RAILWAY_PUBLIC_DOMAIN = 'test.example.com';
+  await handleMessage('=email', 'p5-phone');
+  const mailPhone = await handleMessage('2', 'p5-phone');
+  assert.ok(mailPhone.reply.includes('https://test.example.com/mail?'));
+  process.env.RAILWAY_PUBLIC_DOMAIN = prevDomain;
 
   clearAllSessions();
   const todo = await handleMessage('=待辦 晚上8點洗衣服', 'p5-todo');
